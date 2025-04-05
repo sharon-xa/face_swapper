@@ -21,7 +21,7 @@ def detect_faces(image, app):
         raise ValueError("No faces detected in the image.")
     return faces
 
-def swap_faces(source_img, target_img, source_face, target_face, inswapper_model: INSwapper):
+def swap_faces(target_img, source_face, target_face, inswapper_model: INSwapper):
     """
     Swaps faces using the INSwapper model from InsightFace.
     """
@@ -64,7 +64,7 @@ def face_swap(source_image_path, target_image_path, model_path, output_path="swa
 
     # Perform face swapping
     print("Swapping faces...")
-    swapped_img = swap_faces(source_img, target_img, source_face, target_face, inswapper_model)
+    swapped_img = swap_faces(target_img, source_face, target_face, inswapper_model)
 
     # Save and display the result
     print(f"Saving swapped image to {output_path}")
