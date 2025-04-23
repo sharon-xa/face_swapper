@@ -89,8 +89,8 @@ def face_swap(source_image_path, target_image_path, model_path, output_path="swa
     print("Face swapping complete.")
 
 if __name__ == "__main__":
-    source_image_path = "joey.jpg"
-    target_image_path = "chandler.jpg"
+    source_image_path = "source.jpg"
+    target_image_path = "target.jpg"
     model_path = "./models/inswapper_128.onnx"
     output_image_path = "swapped_image.jpg"
 
