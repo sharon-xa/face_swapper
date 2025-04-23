@@ -1,17 +1,14 @@
 import cv2
 import insightface
 from insightface.model_zoo.inswapper import INSwapper
-import numpy as np
 from insightface.app import FaceAnalysis
 import matplotlib.pyplot as plt
-
-# --- Helper Functions ---
 
 def load_image(image_path):
     """Loads an image using OpenCV."""
     img = cv2.imread(image_path)
     if img is None:
-        raise FileNotFoundError(f"Error: Could not load image at {image_path}")
+        raise FileNotFoundError(f"Could not load image at {image_path}")
     return img
 
 def detect_faces(image, app):
@@ -21,15 +18,15 @@ def detect_faces(image, app):
         raise ValueError("No faces detected in the image.")
     return faces
 
-def swap_faces(target_img, source_face, target_face, inswapper_model: INSwapper):
+def swap_faces(target_img, source_face, target_faces, inswapper_model: INSwapper):
     """
     Swaps faces using the INSwapper model from InsightFace.
     """
     # Perform face swapping using the INSwapper model
-    swapped_img = inswapper_model.get(img=target_img, target_face=target_face, source_face=source_face)
+    swapped_img = target_img
+    for target_face in target_faces:
+        swapped_img = inswapper_model.get(img=swapped_img, target_face=target_face, source_face=source_face)
     return swapped_img
-
-# --- Main Function ---
 
 def face_swap(source_image_path, target_image_path, model_path, output_path="swapped_image.jpg"):
     """
@@ -60,11 +57,10 @@ def face_swap(source_image_path, target_image_path, model_path, output_path="swa
 
     # Use the first detected face for swapping
     source_face = source_faces[0]
-    target_face = target_faces[0]
 
     # Perform face swapping
     print("Swapping faces...")
-    swapped_img = swap_faces(target_img, source_face, target_face, inswapper_model)
+    swapped_img = swap_faces(target_img, source_face, target_faces, inswapper_model)
 
     # Save and display the result
     print(f"Saving swapped image to {output_path}")
@@ -93,8 +89,8 @@ def face_swap(source_image_path, target_image_path, model_path, output_path="swa
     print("Face swapping complete.")
 
 if __name__ == "__main__":
-    source_image_path = "./joey.jpg"
-    target_image_path = "./chandler.jpg"
+    source_image_path = "joey.jpg"
+    target_image_path = "chandler.jpg"
     model_path = "./models/inswapper_128.onnx"
     output_image_path = "swapped_image.jpg"
 
