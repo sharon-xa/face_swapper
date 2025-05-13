@@ -8,7 +8,7 @@
 	- target.jpg
 3. Make sure to have the inswapper model inside the "models" folder.
 4. Create a virtual environment "python -m venv .venv".
-5. Activate the env ".\.venv\Scripts\activate".
+5. Activate the env `.\.venv\Scripts\activate`.
 6. Install all dependencies (pip install):
 	- opencv-python
 	- insightface
