@@ -29,7 +29,7 @@ def swap_faces(target_img, source_face, target_faces, inswapper_model: INSwapper
         for target_face in target_faces:
             swapped_img = inswapper_model.get(img=swapped_img, target_face=target_face, source_face=source_face)
     elif len(target_faces) < FACE_NUMBER:
-        print(f"Warning: face_number {face_number} exceeds number of detected faces ({len(target_faces)}). No face swapped.")
+        print(f"Warning: face_number {FACE_NUMBER} exceeds number of detected faces ({len(target_faces)}). No face swapped.")
     else:
         swapped_img = inswapper_model.get(img=swapped_img, target_face=target_faces[FACE_NUMBER-1], source_face=source_face)
 
