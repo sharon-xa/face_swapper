@@ -7,11 +7,13 @@
 	- source.jpg
 	- target.jpg
 3. Make sure to have the inswapper model inside the "models" folder.
-4. Create a virtual environment "python -m venv .venv".
-5. Activate the env ".\.venv\Scripts\activate".
+4. Create a virtual environment `python -m venv .venv`.
+5. Activate the env `.\.venv\Scripts\activate`.
 6. Install all dependencies (pip install):
 	- opencv-python
 	- insightface
 	- matplotlib
 	- onnxruntime
-7. Run the program "python main.py".
+7. Run the program `python main.py`.
+8. For targeting one face only `python main.py 1`.
+9. You can write 1 or more, but not more than the faces you have in the target image.

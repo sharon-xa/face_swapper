@@ -1,3 +1,4 @@
+import argparse
 import cv2
 import insightface
 from insightface.model_zoo.inswapper import INSwapper
@@ -24,8 +25,14 @@ def swap_faces(target_img, source_face, target_faces, inswapper_model: INSwapper
     """
     # Perform face swapping using the INSwapper model
     swapped_img = target_img
-    for target_face in target_faces:
-        swapped_img = inswapper_model.get(img=swapped_img, target_face=target_face, source_face=source_face)
+    if FACE_NUMBER == 0:
+        for target_face in target_faces:
+            swapped_img = inswapper_model.get(img=swapped_img, target_face=target_face, source_face=source_face)
+    elif len(target_faces) < FACE_NUMBER:
+        print(f"Warning: face_number {face_number} exceeds number of detected faces ({len(target_faces)}). No face swapped.")
+    else:
+        swapped_img = inswapper_model.get(img=swapped_img, target_face=target_faces[FACE_NUMBER-1], source_face=source_face)
+
     return swapped_img
 
 def face_swap(source_image_path, target_image_path, model_path, output_path="swapped_image.jpg"):
@@ -93,6 +100,12 @@ if __name__ == "__main__":
     target_image_path = "target.jpg"
     model_path = "./models/inswapper_128.onnx"
     output_image_path = "swapped_image.jpg"
+
+    parser = argparse.ArgumentParser(description="Swap a face using INSwapper")
+    parser.add_argument("face", type=int, nargs='?', help="Face number to swap (0 = all faces)", default=0)
+    args = parser.parse_args()
+
+    FACE_NUMBER = args.face
 
     try:
         face_swap(source_image_path, target_image_path, model_path, output_image_path)
